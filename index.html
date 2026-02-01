@@ -250,6 +250,28 @@
       for (let i = 0; i < INITIAL_SPAWN; i++) setTimeout(spawnHeart, i * 120);
     });
 
+    // ---------- sticker and Yes click ----------
+    function showSticker(duration = 5000) {
+      if (!sticker) return;
+      sticker.classList.add('show');
+      setTimeout(() => sticker.classList.remove('show'), duration);
+    }
+
+    yesBtn.addEventListener('click', () => {
+      showSticker(5000);
+      firecrackerBurst();
+      playFirecrackerSound();
+      const delayMs = 600;
+      setTimeout(() => {
+        try {
+          const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
+          if (!win) console.warn('Popup blocked (window.open returned null).');
+        } catch (err) {
+          console.error('window.open failed:', err);
+        }
+      }, delayMs);
+    });
+
     // debug logs for troubleshooting
     sticker.addEventListener('error', () => console.error('Sticker image failed to load:', sticker.src));
     sticker.addEventListener('load', () => console.log('Sticker image loaded:', sticker.src));
